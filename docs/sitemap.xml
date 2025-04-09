@@ -1,0 +1,18 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/articles/JointRcppML.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/reference/H_heatmap.html</loc></url>
+<url><loc>/reference/TCGA_COAD_Betas_subset.html</loc></url>
+<url><loc>/reference/TCGA_COAD_metadata.html</loc></url>
+<url><loc>/reference/TCGA_COAD_vst_RNAseq_subset.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/integrate_and_weight.html</loc></url>
+<url><loc>/reference/joint_crossValidate.html</loc></url>
+<url><loc>/reference/merge_metadata.html</loc></url>
+<url><loc>/reference/nmf_umap.html</loc></url>
+<url><loc>/reference/topFeatures.html</loc></url>
+</urlset>
+
