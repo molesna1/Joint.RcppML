@@ -4,15 +4,19 @@
 \alias{nmf_umap}
 \title{Plot UMAP of RcppML sample embeddings}
 \usage{
-nmf_umap(model, group_labels, custom_colors = NULL)
+nmf_umap(model, group_labels, custom_colors = NULL, ...)
 }
 \arguments{
-\item{data:}{model: Output of RcppML
-group_labels: A list or single vector of group_labels, properly aligned to the NMF input matrix
-custom_colors: Optional for specific colors. Can either be a single vector
+\item{model}{Output of RcppML}
+
+\item{group_labels}{A list or single vector of group_labels, properly aligned to the NMF input matrix}
+
+\item{custom_colors}{Optional for specific colors. Can either be a single vector
 Ex. c("GroupA" = "#FF5733", "GroupB" = "#33FF57", "GroupC" = "#3357FF")
 or a list Ex. list(c("GroupA" = "#FF5733", "GroupB" = "#33FF57"),  # Colors for first group
 c("Type1" = "#E41A1C", "Type2" = "#377EB8", "Type3" = "#4DAF4A")  # Colors for second group}
+
+\item{...}{Arguments can be passed to the uwot::umap function}
 }
 \value{
 UMAP plot(s) of sample embeddings for RcppML object

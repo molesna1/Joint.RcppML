@@ -3,31 +3,33 @@
 #' Function to easily plot the output of RcppML in a UMAP, using RcppML object and a group label of choice
 #'
 #'
-#' @param data: model: Output of RcppML
-#' group_labels: A list or single vector of group_labels, properly aligned to the NMF input matrix
-#' custom_colors: Optional for specific colors. Can either be a single vector 
+#' @param model Output of RcppML
+#' @param group_labels A list or single vector of group_labels, properly aligned to the NMF input matrix
+#' @param custom_colors Optional for specific colors. Can either be a single vector
 #' Ex. c("GroupA" = "#FF5733", "GroupB" = "#33FF57", "GroupC" = "#3357FF")
 #' or a list Ex. list(c("GroupA" = "#FF5733", "GroupB" = "#33FF57"),  # Colors for first group
 #' c("Type1" = "#E41A1C", "Type2" = "#377EB8", "Type3" = "#4DAF4A")  # Colors for second group
+#' @param ... Arguments can be passed to the uwot::umap function
 #' @return UMAP plot(s) of sample embeddings for RcppML object
+#' @importFrom uwot umap
 #' @export
 
-nmf_umap <- function(model, group_labels, custom_colors = NULL) {
+nmf_umap <- function(model, group_labels, custom_colors = NULL, ...) {
   # Transpose the H matrix from the NMF model
   H_flip <- t(model$h)
   H_flip <- as.data.frame(H_flip)
-  
+
+  UMAP1<- UMAP2<- Group<- NULL
+
   # Run UMAP
-  umap_embedding <- uwot::umap(H_flip, 
-                               n_neighbors = 15,
-                               min_dist = 0.1,
-                               n_components = 2)
-  
+  set.seed(32)
+  umap_embedding <- uwot::umap(H_flip, ...)
+
   # Check if group_labels is a list
   if (is.list(group_labels) && !is.data.frame(group_labels)) {
     # Create a list to store plots
     plot_list <- list()
-    
+
     # Generate a plot for each set of group labels
     for (i in seq_along(group_labels)) {
       # Create a data frame for plotting
@@ -35,7 +37,7 @@ nmf_umap <- function(model, group_labels, custom_colors = NULL) {
         UMAP1 = umap_embedding[,1],
         UMAP2 = umap_embedding[,2],
         Group = group_labels[[i]])
-      
+
       # Create the plot
       plot <- ggplot2::ggplot(umap_df, ggplot2::aes(x = UMAP1, y = UMAP2, color = Group)) +
         ggplot2::geom_point(size = 3, alpha = 1) +
@@ -48,7 +50,7 @@ nmf_umap <- function(model, group_labels, custom_colors = NULL) {
           title = paste0("UMAP Visualization of NMF Factors (Group ", i, ")"),
           x = "UMAP1",
           y = "UMAP2")
-      
+
       # Add custom colors if provided
       if (!is.null(custom_colors)) {
         # If custom_colors is a list, use the corresponding entry
@@ -67,18 +69,18 @@ nmf_umap <- function(model, group_labels, custom_colors = NULL) {
                   names(named_colors) <- unique_groups
                   plot <- plot + ggplot2::scale_color_manual(values = named_colors)
                 } } } } }}
-      
+
       plot_list[[i]] <- plot }
-    
+
     return(plot_list)
-    
+
   } else {
     # Create a data frame for plotting with a single vector of group labels
     umap_df <- data.frame(
       UMAP1 = umap_embedding[,1],
       UMAP2 = umap_embedding[,2],
       Group = group_labels)
-    
+
     # Create the plot
     umap_plot <- ggplot2::ggplot(umap_df, ggplot2::aes(x = UMAP1, y = UMAP2, color = Group)) +
       ggplot2::geom_point(size = 3, alpha = 1) +
@@ -91,7 +93,7 @@ nmf_umap <- function(model, group_labels, custom_colors = NULL) {
         title = "UMAP Visualization of NMF Factors",
         x = "UMAP1",
         y = "UMAP2")
-    
+
     # Add custom colors if provided
     if (!is.null(custom_colors) && !is.list(custom_colors)) {
       # For a single plot with custom colors
@@ -106,7 +108,7 @@ nmf_umap <- function(model, group_labels, custom_colors = NULL) {
           names(named_colors) <- unique_groups
           umap_plot <- umap_plot + ggplot2::scale_color_manual(values = named_colors)
         } } }
-    
+
     return(umap_plot)
   }
 }

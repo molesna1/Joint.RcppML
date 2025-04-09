@@ -4,21 +4,26 @@
 \alias{joint_crossValidate}
 \title{Modified version of the crossValidate function from the RcppML package}
 \usage{
-joint_crossValidate(data, k, reps = 3, n = 0.05, verbose = FALSE, ...)
+joint_crossValidate(data, k, reps = 3, n = 0.05, ...)
 }
 \arguments{
-\item{data:}{Input data for joint NMF, in matrix or data.frame format
-k: Number of groups to evaluate (Example, 2:8)
-reps: Number of repeats, default=3
-n: Percent of data to mask, default= 0.05 (5 percent)}
+\item{data}{Input data for joint NMF, in matrix or data.frame format}
+
+\item{k}{Number of groups to evaluate (Example, 2:8)}
+
+\item{reps}{Number of repeats, default=3}
+
+\item{n}{Percent of data to mask, default= 0.05 (5 percent)}
+
+\item{...}{Arguments from RcppML:nmf function}
 }
 \value{
 object to be plotted using plot()
 }
 \description{
 Existing crossValidate function is not compatible with data that contains both NA and 0 values.
-This is a modified version to address that challenge, specifically designed to accomodate joint NMF analyses
-that will always contain missing data. The function works with the same code as the original, but selects random values
+This is a modified version to address that challenge, specifically designed to accommodate joint NMF analyses,
+which will always contain missing data. The function works with the same code as the original, but selects random values
 to mask from those that are not "NA". Randomly masked values are combined with all other NA values for computation,
 and are then used alone for model evaluation.
 }

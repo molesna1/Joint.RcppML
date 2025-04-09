@@ -4,25 +4,32 @@
 \alias{merge_metadata}
 \title{Function to merge metadata from two datasets and extract label of interest}
 \usage{
-merge_metadata(combined_df, meta1, meta2, id_col, meta_cols)
+merge_metadata(metadata1, metadata2, id_col, data_matrix, metadata_columns)
 }
 \arguments{
-\item{combined_df:}{NMF input data or combined dataframe, with column names corresponding to your samples in the correct order
-meta1: First metadata table
-meta2: Second metadata table
-id_col: Name of the column in metadata that contains sample IDs ("Sample_ID")
-meta_col: Metadata column(s) of interest}
+\item{metadata1}{First metadata table}
+
+\item{metadata2}{Second metadata table}
+
+\item{id_col}{Name of the column in metadata that contains sample IDs ("Sample_ID").
+Must be the same for both dataframes}
+
+\item{data_matrix}{NMF input data or combined dataframe, with column names corresponding to your samples}
+
+\item{metadata_columns}{Metadata column(s) of interest}
 }
 \value{
-A vector of your aligned group label of choice, or a list of vectors if more than one group
+A vector of your aligned group label of choice, or a list of vectors if there is more than one group
 }
 \description{
-For downstream joint NMF analysis, it is necessary to have labels of interest that align to the samples in your
-input data, but often the metadata is stored in multiple dataframes corresponding to the multiple data types. This
-provides an easy workaround to extract a metadata label of interest and align it to the combined input data file,
-without needing to fully join two disparate tables containing different sets of metadata.
+For downstream joint NMF analysis, you need to align labels of interest to the samples in your input data,
+but often the metadata is stored in multiple dataframes corresponding to the different data types. This
+provides an easy workaround to extract a metadata label of interest and align it to the combined input data file
+in one line.
 }
 \details{
 This function requires two dataframes containing sample metadata.
-Note that your "group of interest" and "ID column" to map to each sample MUST have the same name in both dataframes
+Note that your "group of interest" and sample "ID column" MUST have the same name in both dataframes
+if you want group labels from both dataframes. Labels only present in one data type are acceptable
+and NA values will be used for any missing information.
 }
